@@ -141,7 +141,15 @@ function CatBaseDetailController($scope, $state, $stateParams, $location, $windo
         endpoint.copy($scope.detail.id).then(function (data) {
             //Note: here we go to the detail state of the copied object although we have all the data of the copied object here,
             // but otherwise we would have to change the url and this leads to problems with browser back and so on
-            $state.go('.', {id: data.id});
+            if (!!data.id) {
+                console.log(data.id);
+                $state.go('.', {id: data.id});
+            } else {
+                var url = $state.href('^.^');
+                console.log(url);
+                $location.url(url.substring(1, url.indexOf('/')) + '/copy');
+                $scope.editDetail = data;
+            }
         });
     };
 
